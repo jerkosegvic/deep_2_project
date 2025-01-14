@@ -1,1 +1,1 @@
-# deep_2_project
+# Nadopunjavanje slike korištenjem difuzijskih modela	
