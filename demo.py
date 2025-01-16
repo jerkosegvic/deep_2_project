@@ -10,7 +10,8 @@ def upsample_image(image_np, scale_factor=10):
     Supports both grayscale and RGB images.
     """
     height, width, channels = image_np.shape
-    upsampled_image = cv2.resize(image_np, (width * scale_factor, height * scale_factor), interpolation=cv2.INTER_NEAREST)
+    upsampled_image = cv2.resize(
+        image_np, (width * scale_factor, height * scale_factor), interpolation=cv2.INTER_NEAREST)
     return upsampled_image
 
 
@@ -25,7 +26,8 @@ def downsample_mask(mask_np, target_size=(32, 32)):
     if mask_np.ndim == 3 and mask_np.shape[2] == 4:  # RGBA mask
         mask_np = mask_np[:, :, 3]
 
-    downsampled_mask = cv2.resize(mask_np, target_size, interpolation=cv2.INTER_NEAREST)
+    downsampled_mask = cv2.resize(
+        mask_np, target_size, interpolation=cv2.INTER_NEAREST)
     return downsampled_mask
 
 
@@ -61,18 +63,28 @@ def demo():
             process_button = gr.Button("Run Inpainting", variant="primary")
 
         with gr.Row():
-            upsampled_image_display = gr.Image(
-                label="Selected CIFAR Image",
+            with gr.Column():
+                upsampled_image_display = gr.Image(
+                    label="Selected CIFAR Image",
+                    type="numpy",
+                    image_mode="RGB",
+                    interactive=False,
+                    width=280,
+                    height=280,
+                )
+
+                sketchpad = gr.Sketchpad(
+                    label="Draw Mask Here",
+                    canvas_size=(280, 280)
+                )
+
+            masked_image_display = gr.Image(
+                label="Masked Image",
                 type="numpy",
                 image_mode="RGB",
                 interactive=False,
                 width=280,
                 height=280,
-            )
-
-            sketchpad = gr.Sketchpad(
-                label="Draw Mask Here",
-                canvas_size=(280, 280)
             )
 
             output_image_display = gr.Image(
@@ -96,7 +108,8 @@ def demo():
 
             return upsample_image(original_image)
 
-        image_selector.change(load_selected_image, image_selector, upsampled_image_display)
+        image_selector.change(load_selected_image,
+                              image_selector, upsampled_image_display)
 
         def process_and_upsample(selected_option, mask_np):
             if selected_option == "Image 1":
@@ -110,6 +123,7 @@ def demo():
 
             downsampled_mask = downsample_mask(mask_np)
             processed_image = inpaint_image(original_image, downsampled_mask)
+
             return upsample_image(processed_image)
 
         process_button.click(
@@ -117,6 +131,9 @@ def demo():
             inputs=[image_selector, sketchpad],
             outputs=output_image_display
         )
+
+        sketchpad.input(process_and_upsample, inputs=[
+                        image_selector, sketchpad], outputs=masked_image_display)
 
     return demo_interface
 
