@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-from torchvision.utils import save_image
 from utils import ExponentialMovingAverage
 import os
 
@@ -38,8 +37,8 @@ def train(model, dataloader, optimizer, scheduler, device, epochs, log_freq, ema
             t = torch.randint(0, model.timesteps, (images.size(0),), device=device)
 
             # Forward pass
-            x_t = model._forward_diffusion(images, t, noise)
-            pred_noise = model(x_t, noise)
+            x_t = model._forward_diffusion(images, t, noise, training=True)
+            pred_noise = model(x_t, t=t, noise=noise, training=True)
             loss = loss_fn(pred_noise, noise)
 
             # Backward pass
@@ -70,6 +69,4 @@ def train(model, dataloader, optimizer, scheduler, device, epochs, log_freq, ema
         # Generate samples
         ema.eval()
         samples = ema.module.sampling(16, device=device)
-        save_image(
-            (samples + 1) / 2, f"checkpoints/samples_epoch_{epoch + 1}.png", nrow=4
-        )
+

@@ -18,7 +18,7 @@ def main():
     # Training hyperparameters
     lr = 0.001
     batch_size = 128
-    epochs = 1  # For quick testing
+    epochs = 10  # For quick testing
     timesteps = 1000
     model_base_dim = 64
     ema_decay = 0.995
@@ -33,8 +33,9 @@ def main():
     # Train the model
     # Uncomment the following line to train the model
 
-    # train.train(model, dataloader, optimizer, scheduler, device, epochs, log_freq, ema_decay)
+    #train.train(model, dataloader, optimizer, scheduler, device, epochs, log_freq, ema_decay)
 
+    
     # Load pretrained model
     checkpoint_path = "checkpoints/epoch_0.pt"
     if os.path.exists(checkpoint_path):
@@ -45,7 +46,7 @@ def main():
     else:
         print(f"Checkpoint not found at {checkpoint_path}. Please run training first.")
         return
-
+    
     mnist_testset = datasets.MNIST(
         root="./mnist_data", 
         train=False, 
@@ -58,7 +59,7 @@ def main():
     )
 
     # Define the output folder for saving results
-    output_folder = "repaint_output"
+    output_folder = "repaint_output_v2"
     U = 5
     num_timesteps = 200
     

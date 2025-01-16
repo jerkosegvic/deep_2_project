@@ -37,18 +37,19 @@ class Diffusion(nn.Module):
             timesteps, time_embedding_dim, in_channels, in_channels, base_dim, dim_mults
         )
 
-    # def forward(self, x, noise):
-    #    t = torch.randint(0, self.timesteps, (x.shape[0],)).to(x.device)
-    #    x_t = self._forward_diffusion(x, t, noise)
-    #    pred_noise = self.model(x_t, t)
-    #    return pred_noise
+    def forward(self, x, t=None, noise=None, training=False):
+        if training==True:
+            t = torch.randint(0, self.timesteps, (x.shape[0],)).to(x.device)
+            x_t = self._forward_diffusion(x, t, noise, training==True)
+            pred_noise = self.model(x_t, t)
+            return pred_noise
+        elif training==False:
+            noise = torch.randn_like(x) 
+            x_t = self._forward_diffusion(x, t, noise)
+            pred_noise = self.model(x_t, t)
+            return pred_noise
 
-    def forward(self, x, t):
-        noise = torch.randn_like(x)  # Generirajte šum iste dimenzije kao x
-        x_t = self._forward_diffusion(x, t, noise)
-        pred_noise = self.model(x_t, t)
-        return pred_noise
-
+   
     @torch.no_grad()
     def sampling(self, n_samples, device="cuda"):
         x_t = torch.randn(
@@ -71,15 +72,19 @@ class Diffusion(nn.Module):
         betas = torch.clip(1.0 - f_t[1:] / f_t[:timesteps], 0.0, 0.999)
         return betas
 
-    def _forward_diffusion(self, x_0, t, noise):
+    def _forward_diffusion(self, x_0, t, noise, training=False):
         assert x_0.shape == noise.shape
-        return (
-            self.sqrt_alphas_cumprod.gather(0, t).reshape(x_0.size(0), 1, 1, 1) * x_0
-            + self.sqrt_one_minus_alphas_cumprod.gather(0, t).reshape(
-                x_0.size(0), 1, 1, 1
+        if training==True:
+            return self.sqrt_alphas_cumprod.gather(-1, t).reshape(x_0.shape[0], 1, 1, 1) * x_0 + \
+                self.sqrt_one_minus_alphas_cumprod.gather(-1, t).reshape(x_0.shape[0], 1, 1, 1) * noise
+        elif training==False: 
+            return (
+                self.sqrt_alphas_cumprod.gather(0, t).reshape(x_0.size(0), 1, 1, 1) * x_0
+                + self.sqrt_one_minus_alphas_cumprod.gather(0, t).reshape(
+                    x_0.size(0), 1, 1, 1
+                )
+                * noise
             )
-            * noise
-        )
 
     @torch.no_grad()
     def _reverse_diffusion(self, x_t, t, noise):
