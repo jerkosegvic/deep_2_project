@@ -1,5 +1,6 @@
 import torch
 
+
 class ExponentialMovingAverage(torch.optim.swa_utils.AveragedModel):
     """
     Implements exponential moving averages for model parameters with a customizable decay factor.
@@ -12,4 +13,6 @@ class ExponentialMovingAverage(torch.optim.swa_utils.AveragedModel):
         def compute_moving_average(existing_avg, current_param, _):
             return alpha * existing_avg + (1 - alpha) * current_param
 
-        super().__init__(model, compute_device, compute_moving_average, use_buffers=True)
+        super().__init__(
+            model, compute_device, compute_moving_average, use_buffers=True
+        )
