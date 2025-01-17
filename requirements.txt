@@ -4,3 +4,6 @@ numpy
 tqdm
 matplotlib
 ruff
+gradio
+Pillow
+opencv-python
