@@ -44,9 +44,22 @@ susreli prilikom treniranja
 
 \section{Difuzijski modeli}
 Difuzijski modeli su su klasa generativnih modela s latentnim varijablama. Ideja difuzijskih modela je simulirati proces reverzne difuzije 
-i naučiti model da iz poznate latentne distribucije konstruira elemente iz distribucije podataka. Svaki difuzijski model se sastoji od tri
-osnovna elementa: unaprijedni proces, reverzni proces i strategija uzrokovanja
+i naučiti model da iz poznate latentne distribucije konstruira elemente iz distribucije podataka. Svaki difuzijski model se sastoji od dva
+osnovna elementa: unaprijedni proces i reverzni proces. Unaprijedni proces nema slobodne parametre, već se unaprijed definiranim 
+transformacijama podatak postepeno pretvori u element latentne distribucije. Za distribuciju latentnog prostora odabrali smo normalnu razdiobu.
+Dimenzija latentnog prostora jednaka je dimenziji prostora podatka. Unaprijedni proces može se promatrati kao markovljev lanac, i moguće je 
+izvesti uvjetne distribuciju sljedećeg stanja na temelju trenutnog. Za distribuciju zadnjeg stanja lanca pretpostavljamo upravo latentnu 
+distribuciju. Unatražnu distribuciju nije traktabilna te nju upravo procjenjujemo pomoću dubokog modela. 
+
+\subsection{UNet}
+\textbf{TODO}
 \section{RePaint model}
+RePaint je alogirtam za nadpounjavanje slike pomoću predtreniranog difuzijskog modela. Sam RePaint nema slobodne parametere te ga zato nije
+potrebno učiti. To nam omogućava korištenje bilo kojeg difuzijskog modela. Također takav pristup nema pristranost prema nekim oblicima maski. 
+Algoritam funkcionira na sljedeći način. Vidljivi dio slike unaprijednim prolazom preslikamo u stanje $x_t \sim p_t$ . Nadopunjenu sliku 
+generiramo iz latentnog prostora do stanja $x_t \sim q_t$. Sada na nadopunjenu sliku primjenimo inverznu masku i ove dvije slike zbrojimo. 
+Njihov zbroj jednak je novom "latentnom prostoru" iz kojeg generiramo novu nadopunjenu sliku. Ova iteracija se ponavlja dok se cijeli reverzni
+proces ne izvrši to jest do $t = 0$
 
 \section{Rezultati}
 
