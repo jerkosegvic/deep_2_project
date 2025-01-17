@@ -33,9 +33,19 @@ Cilj nadopunjavanja slike je nedostajuće piksele slike zamijeniti čim uvjerlji
 \maketitleabstract
 
 \section{Nadopunjavanje slike}
+Nadopunjavnje slike (engl. \emph{image inpainting}) je postupak u kojem nadopunjavamo segmente slike koji nedostaju. Nadopuna mora biti 
+semantički smislena i u skladnom odnosu s poznatim dijelom slike. Zbog ovih čvrstih zahtjeva, modeli za nadopunjavanje slike moraju imati 
+snažne generativne mogućnosti. Generativni difuzijski modeli, uz dobre generativne sposobnosti, omogućuju i manipulaciju latentnog prostora 
+za ugradnju semantičke informacije. Popularni modeli za ovaj zadatak su još i generativne suparničke mreže 
+(engl. \emph{generative adverserial networks}) i autoregresivni modeli. Problem takvih arhitketura je da moraju također naučiti i distribuciju
+dijelova slike koji nedostaju. U praksi takvi modeli imaju problema sa neobičnim prazninama u slici ili sa prazninama s kojima se nisu
+susreli prilikom treniranja
+
 
 \section{Difuzijski modeli}
-
+Difuzijski modeli su su klasa generativnih modela s latentnim varijablama. Ideja difuzijskih modela je simulirati proces reverzne difuzije 
+i naučiti model da iz poznate latentne distribucije konstruira elemente iz distribucije podataka. Svaki difuzijski model se sastoji od tri
+osnovna elementa: unaprijedni proces, reverzni proces i strategija uzrokovanja
 \section{RePaint model}
 
 \section{Rezultati}
