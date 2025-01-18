@@ -43,7 +43,7 @@ susreli prilikom treniranja
 
 
 \section{Difuzijski modeli}
-Difuzijski modeli su su klasa generativnih modela s latentnim varijablama. Ideja difuzijskih modela je simulirati proces reverzne difuzije 
+Difuzijski modeli su su klasa generativnih modela s latentnim varijablama \cite{diffusion}. Ideja difuzijskih modela je simulirati proces reverzne difuzije 
 i naučiti model da iz poznate latentne distribucije konstruira elemente iz distribucije podataka. Svaki difuzijski model se sastoji od dva
 osnovna elementa: unaprijedni proces i reverzni proces. Unaprijedni proces nema slobodne parametre, već se unaprijed definiranim 
 transformacijama podatak postepeno pretvori u element latentne distribucije. Za distribuciju latentnog prostora odabrali smo normalnu razdiobu.
@@ -69,20 +69,29 @@ Jednostavanim višeslojnim perceptronom genereiramo naučeni vremenski-ovisan ve
 
 \section{RePaint model}
 RePaint je alogirtam za nadpounjavanje slike pomoću predtreniranog difuzijskog modela. Sam RePaint nema slobodne parametere te ga zato nije
-potrebno učiti. To nam omogućava korištenje bilo kojeg difuzijskog modela \cite{repaint}. Također takav pristup nema pristranost prema nekim oblicima maski. 
+potrebno učiti. To nam omogućava korištenje bilo kojeg difuzijskog modela \cite{repaint}. Također takav pristup nema pristranost prema nekim oblicima maski.
 Algoritam funkcionira na sljedeći način. Vidljivi dio slike unaprijednim prolazom preslikamo u stanje $x_t \sim p_t$ . Nadopunjenu sliku 
 generiramo iz latentnog prostora do stanja $x_t \sim q_t$. Sada na nadopunjenu sliku primjenimo inverznu masku i ove dvije slike zbrojimo. 
 Njihov zbroj jednak je novom "latentnom prostoru" iz kojeg generiramo novu nadopunjenu sliku. Ova iteracija se ponavlja dok se cijeli reverzni
 proces ne izvrši to jest do $t = 0$
+\begin{figure}
+	\begin{center}
+	\includegraphics[width=\columnwidth]{images/repaint.png}
+	\caption{Slikovni prikaz RePaint algoritma \cite{repaint}}
+	\label{fig:figure2}
+	\end{center}
+\end{figure}
 
 \section{Rezultati}
+Kako bi testirali funkcionalnost našeg modela, maskirali smo nekoliko uzoraka iz skupa MNIST i predali modelu da ih dopuni (slika 2).
+Model je uvjerljivo popunio maskirane djelove slika u većini slučajeva.
 \begin{figure}
 	\begin{center}
 	\includegraphics[width=\columnwidth]{../repaint_output/inpainted_combined_6.png}
 	\includegraphics[width=\columnwidth]{../repaint_output/inpainted_combined_7.png}
 	\includegraphics[width=\columnwidth]{../repaint_output/inpainted_combined_8.png}
 	\caption{Originalna slika, maskirana slika i rezultati nadopunjavanja}
-	\label{fig:figure1}
+	\label{fig:figure3}
 	\end{center}
 \end{figure}
 

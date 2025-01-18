@@ -1,5 +1,10 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citename{Ho \bgroup et al.\egroup }2020]{diffusion}
+Jonathan Ho, Ajay Jain, and Pieter Abbeel.
+\newblock 2020.
+\newblock Denoising diffusion probabilistic models.
+
 \bibitem[\protect\citename{Lugmayr \bgroup et al.\egroup }2022]{repaint}
 Andreas Lugmayr, Martin Danelljan, Andres Romero, Fisher Yu, Radu Timofte, and
   Luc~Van Gool.

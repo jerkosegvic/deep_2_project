@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.4.25)  18 JAN 2025 19:37
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.4.25)  18 JAN 2025 21:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -171,11 +171,7 @@ File: l3backend-pdftex.def 2022-01-12 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count277
 \l__pdf_internal_box=\box52
 )
-(./report.aux
-
-LaTeX Warning: Label `fig:figure1' multiply defined.
-
-)
+(./report.aux)
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 31.
@@ -192,7 +188,8 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 31.
 LaTeX Font Info:    ... okay on input line 31.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 31.
 LaTeX Font Info:    ... okay on input line 31.
- (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count278
 \scratchdimen=\dimen164
@@ -238,6 +235,17 @@ spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
 ! Undefined control sequence.
+\b@diffusion ->\@safe@activesfalse \citename 
+                                             {Ho \bgroup et al.\egroup }2020
+l.46 ...a s latentnim varijablama \cite{diffusion}
+                                                  . Ideja difuzijskih modela...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
 \b@unet ->\@safe@activesfalse \citename 
                                         {Ronneberger \bgroup et al.\egroup }...
 l.56 ...segmentaciju i drugim domenama \cite{unet}
@@ -275,23 +283,50 @@ misspelled it (e.g., `\hobx'), type `I' and the correct
 spelling (e.g., `I\hbox'). Otherwise just continue,
 and I'll forget about whatever was undefined.
 
-<../repaint_output/inpainted_combined_6.png, id=3, 84.315pt x 28.105pt>
+<images/repaint.png, id=3, 853.1875pt x 434.62375pt>
+File: images/repaint.png Graphic file (type png)
+<use images/repaint.png>
+Package pdftex.def Info: images/repaint.png  used on input line 79.
+(pdftex.def)             Requested size: 235.73097pt x 120.08228pt.
+! Undefined control sequence.
+\b@repaint ->\@safe@activesfalse \citename 
+                                           {Lugmayr \bgroup et al.\egroup }2022
+l.80 ...i prikaz RePaint algoritma \cite{repaint}}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+! Undefined control sequence.
+\b@repaint ->\@safe@activesfalse \citename 
+                                           {Lugmayr \bgroup et al.\egroup }2022
+l.80 ...i prikaz RePaint algoritma \cite{repaint}}
+                                                  
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+<../repaint_output/inpainted_combined_6.png, id=4, 84.315pt x 28.105pt>
 File: ../repaint_output/inpainted_combined_6.png Graphic file (type png)
 <use ../repaint_output/inpainted_combined_6.png>
 Package pdftex.def Info: ../repaint_output/inpainted_combined_6.png  used on in
-put line 81.
+put line 90.
 (pdftex.def)             Requested size: 235.73097pt x 78.57892pt.
-<../repaint_output/inpainted_combined_7.png, id=4, 84.315pt x 28.105pt>
+<../repaint_output/inpainted_combined_7.png, id=5, 84.315pt x 28.105pt>
 File: ../repaint_output/inpainted_combined_7.png Graphic file (type png)
 <use ../repaint_output/inpainted_combined_7.png>
 Package pdftex.def Info: ../repaint_output/inpainted_combined_7.png  used on in
-put line 82.
+put line 91.
 (pdftex.def)             Requested size: 235.73097pt x 78.57892pt.
-<../repaint_output/inpainted_combined_8.png, id=5, 84.315pt x 28.105pt>
+<../repaint_output/inpainted_combined_8.png, id=6, 84.315pt x 28.105pt>
 File: ../repaint_output/inpainted_combined_8.png Graphic file (type png)
 <use ../repaint_output/inpainted_combined_8.png>
 Package pdftex.def Info: ../repaint_output/inpainted_combined_8.png  used on in
-put line 83.
+put line 92.
 (pdftex.def)             Requested size: 235.73097pt x 78.57892pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -301,65 +336,62 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
  <./images/unet.png>]
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 9
-6.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 1
+05.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 96--97
+Underfull \hbox (badness 10000) in paragraph at lines 105--106
 []\OT1/ptm/b/n/10 Fleksibilnost ma-ski-ra-nja: \OT1/ptm/m/n/10 Re-Pa-int al-go-
 ri-tam,
  []
 
 
-Underfull \hbox (badness 1132) in paragraph at lines 96--97
+Underfull \hbox (badness 1132) in paragraph at lines 105--106
 \OT1/ptm/m/n/10 odre[]denim obli-cima ma-ski, []sto ga []cini ge-ne-ralno
  []
 
 
-Underfull \hbox (badness 2134) in paragraph at lines 97--98
+Underfull \hbox (badness 2134) in paragraph at lines 106--107
 []\OT1/ptm/b/n/10 Kori[]stenje pos-toje[]cih mo-dela: \OT1/ptm/m/n/10 Re-verzni
  pro-ces
  []
 
 
-Underfull \hbox (badness 1043) in paragraph at lines 97--98
+Underfull \hbox (badness 1043) in paragraph at lines 106--107
 \OT1/ptm/m/n/10 mo-dela bez po-trebe za do-dat-nim tre-ni-ra-njem, []sto
  []
 
 
-Underfull \hbox (badness 2376) in paragraph at lines 103--104
+Underfull \hbox (badness 2376) in paragraph at lines 112--113
 \OT1/ptm/m/n/10 di-fu-zij-skih mo-dela u na-do-pu-nja-va-nju slika i otva-raju
  []
 
-(./report.bbl) [2 <../repaint_output/inpainted_combined_6.png (PNG copy)> <../r
-epaint_output/inpainted_combined_7.png (PNG copy)> <../repaint_output/inpainted
-_combined_8.png (PNG copy)>] (./report.aux)
-
-LaTeX Warning: There were multiply-defined labels.
-
- ) 
+(./report.bbl) [2 <./images/repaint.png> <../repaint_output/inpainted_combined_
+6.png (PNG copy)> <../repaint_output/inpainted_combined_7.png (PNG copy)> <../r
+epaint_output/inpainted_combined_8.png (PNG copy)>] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 3812 strings out of 479647
- 60367 string characters out of 5878802
- 374838 words of memory out of 5000000
- 21754 multiletter control sequences out of 15000+600000
+ 3822 strings out of 479647
+ 60554 string characters out of 5878802
+ 374836 words of memory out of 5000000
+ 21763 multiletter control sequences out of 15000+600000
  482018 words of font info for 51 fonts, out of 8000000 for 9000
  350 hyphenation exceptions out of 8191
  55i,11n,62p,454b,439s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
-e/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/pub
-lic/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times
-/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on report.pdf (2 pages, 125644 bytes).
+{/usr/share
+/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on report.pdf (2 pages, 361367 bytes).
 PDF statistics:
- 58 PDF objects out of 1000 (max. 8388607)
+ 60 PDF objects out of 1000 (max. 8388607)
  32 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -276,6 +276,11 @@ INPUT images/unet.png
 INPUT ./images/unet.png
 OUTPUT report.pdf
 INPUT ./images/unet.png
+INPUT ./images/repaint.png
+INPUT ./images/repaint.png
+INPUT images/repaint.png
+INPUT ./images/repaint.png
+INPUT ./images/repaint.png
 INPUT ../repaint_output/inpainted_combined_6.png
 INPUT ../repaint_output/inpainted_combined_6.png
 INPUT ../repaint_output/inpainted_combined_6.png
