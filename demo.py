@@ -7,8 +7,10 @@ from model import Diffusion
 from repaint_loop import repaint_inpaint
 import os
 
+
 def load_model():
-    model = Diffusion(image_size=28, in_channels=1, timesteps=1000, base_dim=64).to(device)
+    model = Diffusion(image_size=28, in_channels=1,
+                      timesteps=1000, base_dim=64).to(device)
 
     checkpoint_path = "checkpoints/epoch_99.pt"
     if os.path.exists(checkpoint_path):
@@ -17,7 +19,8 @@ def load_model():
         model.eval()
         print("Checkpoint loaded successfully.")
     else:
-        print(f"Checkpoint not found at {checkpoint_path}. Please run training first.")
+        print(
+            f"Checkpoint not found at {checkpoint_path}. Please run training first.")
         return
 
     return model
@@ -48,7 +51,8 @@ def downsample_mask(mask_np, target_size=(28, 28)):
     if mask_np.ndim == 3 and mask_np.shape[2] == 4:  # RGBA mask
         mask_np = mask_np[:, :, 3]
 
-    downsampled_mask = cv2.resize(mask_np, target_size, interpolation=cv2.INTER_NEAREST)
+    downsampled_mask = cv2.resize(
+        mask_np, target_size, interpolation=cv2.INTER_NEAREST)
     return downsampled_mask
 
 
@@ -64,13 +68,15 @@ def inpaint_image(input_image_np, mask_np, model, num_timesteps, U):
     input_image_gray = cv2.cvtColor(input_image_np, cv2.COLOR_RGB2GRAY)
     input_image_gray = np.expand_dims(input_image_gray, axis=-1)
 
-    input_image_tensor = torch.tensor(input_image_gray.transpose(2, 0, 1)).unsqueeze(0).float().to(device) / 255.0
-    mask_tensor = torch.tensor(mask_np[:, :, 0]).unsqueeze(0).unsqueeze(0).float().to(device) / 255.0  # shapes (1, 1, H, W)
+    input_image_tensor = torch.tensor(input_image_gray.transpose(
+        2, 0, 1)).unsqueeze(0).float().to(device) / 255.0
+    mask_tensor = torch.tensor(mask_np[:, :, 0]).unsqueeze(0).unsqueeze(
+        0).float().to(device) / 255.0  # shapes (1, 1, H, W)
 
     masked_image_tensor = input_image_tensor.clone()
     masked_image_tensor[mask_tensor == 1] = 0
 
-    #print(masked_image_tensor.shape, mask_tensor.shape)
+    # print(masked_image_tensor.shape, mask_tensor.shape)
 
     print("started doing diffusion")
     inpainted_image_tensor = repaint_inpaint(
@@ -83,11 +89,24 @@ def inpaint_image(input_image_np, mask_np, model, num_timesteps, U):
     )
     print("done with diffusion")
     # convert the output back to a NumPy array
-    inpainted_image_np = (inpainted_image_tensor.squeeze(0).cpu().detach().numpy().transpose(1, 2, 0) * 255).astype(np.uint8)
+    inpainted_image_np = (inpainted_image_tensor.squeeze(
+        0).cpu().detach().numpy().transpose(1, 2, 0) * 255).astype(np.uint8)
     print("Output shape:")
     print(inpainted_image_np.shape)
 
     return inpainted_image_np
+
+
+def mask_image(input_image_np, mask_np):
+    """
+    Draw mask over image
+    """
+    if mask_np.ndim == 2:
+        mask_np = np.expand_dims(mask_np, axis=-1)
+    mask_np = np.repeat(mask_np, 3, axis=-1)
+
+    inpainted_image = np.where(mask_np == 255, 0, input_image_np)
+    return inpainted_image
 
 
 mnist_images = [
@@ -111,16 +130,29 @@ def demo():
             process_button = gr.Button("Run Inpainting", variant="primary")
 
         with gr.Row():
-            upsampled_image_display = gr.Image(
-                label="Selected MNIST Image",
+            with gr.Column():
+                upsampled_image_display = gr.Image(
+                    label="Selected CIFAR Image",
+                    type="numpy",
+                    image_mode="RGB",
+                    interactive=False,
+                    width=280,
+                    height=280,
+                )
+
+                sketchpad = gr.Sketchpad(
+                    label="Draw Mask Here",
+                    canvas_size=(280, 280)
+                )
+
+            masked_image_display = gr.Image(
+                label="Masked Image",
                 type="numpy",
                 image_mode="RGB",
                 interactive=False,
                 width=280,
                 height=280,
             )
-
-            sketchpad = gr.Sketchpad(label="Draw Mask Here", canvas_size=(280, 280))
 
             output_image_display = gr.Image(
                 label="Output Image",
@@ -158,7 +190,23 @@ def demo():
                 return None
 
             downsampled_mask = downsample_mask(mask_np)
-            processed_image = inpaint_image(original_image, downsampled_mask, model, 1000, 5)
+            processed_image = inpaint_image(
+                original_image, downsampled_mask, model, 1000, 5)
+            return upsample_image(processed_image)
+
+        def add_mask(selected_option, mask_np):
+            if selected_option == "Image 1":
+                original_image = mnist_images[0]
+            elif selected_option == "Image 2":
+                original_image = mnist_images[1]
+            elif selected_option == "Image 3":
+                original_image = mnist_images[2]
+            else:
+                return None
+
+            downsampled_mask = downsample_mask(mask_np)
+            processed_image = mask_image(original_image, downsampled_mask)
+
             return upsample_image(processed_image)
 
         process_button.click(
@@ -166,6 +214,9 @@ def demo():
             inputs=[image_selector, sketchpad],
             outputs=output_image_display,
         )
+
+        sketchpad.input(add_mask, inputs=[
+            image_selector, sketchpad], outputs=masked_image_display)
 
     return demo_interface
 
