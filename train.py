@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 from utils import ExponentialMovingAverage
 import os
+from torchvision.utils import save_image
+
 
 
 def save_checkpoint(epoch, model, ema, global_steps, checkpoint_dir="checkpoints"):
@@ -12,6 +14,7 @@ def save_checkpoint(epoch, model, ema, global_steps, checkpoint_dir="checkpoints
         "ema": ema.state_dict(),
         "global_steps": global_steps,
     }
+
     torch.save(checkpoint, os.path.join(checkpoint_dir, f"epoch_{epoch}.pt"))
 
 
@@ -33,6 +36,7 @@ def train(model, dataloader, optimizer, scheduler, device, epochs, log_freq, ema
         model.train()
         for i, (images, _) in enumerate(dataloader):
             images = images.to(device)
+            #breakpoint()
             noise = torch.randn_like(images)
             t = torch.randint(0, model.timesteps, (images.size(0),), device=device)
 
@@ -69,4 +73,5 @@ def train(model, dataloader, optimizer, scheduler, device, epochs, log_freq, ema
         # Generate samples
         ema.eval()
         samples = ema.module.sampling(16, device=device)
+        save_image(samples, f"checkpoints/samples_{epoch}.png", nrow=4, normalize=True)
 

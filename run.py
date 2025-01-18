@@ -33,7 +33,7 @@ def main():
     # Train the model
     # Uncomment the following line to train the model
 
-    #train.train(model, dataloader, optimizer, scheduler, device, epochs, log_freq, ema_decay)
+    train.train(model, dataloader, optimizer, scheduler, device, epochs, log_freq, ema_decay)
 
     
     # Load pretrained model

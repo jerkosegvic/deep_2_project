@@ -12,8 +12,8 @@ class Diffusion(nn.Module):
         in_channels,
         time_embedding_dim=256,
         timesteps=1000,
-        base_dim=32,
-        dim_mults=[1, 2, 4, 8],
+        base_dim=64,
+        dim_mults=[2, 4],
     ):
         super().__init__()
         self.timesteps = timesteps

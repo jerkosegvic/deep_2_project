@@ -210,12 +210,15 @@ class Unet(nn.Module):
         for encoder_block in self.encoder:
             x, x_skip = encoder_block(x, t)
             encoder_skips.append(x_skip)
+            #print(x.shape)
 
         x = self.mid_block(x)
         #breakpoint()
+        #print("mid", x.shape)
         encoder_skips.reverse()
         for decoder_block, skip in zip(self.decoder, encoder_skips):
             x = decoder_block(x, skip, t)
+            #print(x.shape)
 
         x = self.conv2(x)
         return x
