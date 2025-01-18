@@ -25,7 +25,7 @@ Unska 3, 10000 Zagreb, Croatia\\
           
          
 \abstract{
-Cilj nadopunjavanja slike je nedostajuće piksele slike zamijeniti čim uvjerljivijim sadržajem. U projektu smo opisali i implementirali model za nadopunjavanje slika temeljen na difuziji. Trenirali smo difuzijski model na skupu podataka MNIST, impelemntirali RePaint \cite{repaint} petlju za popunjavanje slike te razvili sučelje za vizualizaciju maske, nepotpune slike i popunjene slike. Model uvjerljivo ispunjava slike.
+Cilj nadopunjavanja slike je nedostajuće piksele slike zamijeniti čim uvjerljivijim sadržajem. U projektu smo opisali i implementirali model za nadopunjavanje slika temeljen na difuziji. Trenirali smo difuzijski model na skupu podataka MNIST, implementirali RePaint \cite{repaint} petlju za popunjavanje slike te razvili sučelje za vizualizaciju maske, nepotpune slike i popunjene slike. Model uvjerljivo ispunjava slike.
 }
 
 \begin{document}
@@ -33,11 +33,11 @@ Cilj nadopunjavanja slike je nedostajuće piksele slike zamijeniti čim uvjerlji
 \maketitleabstract
 
 \section{Nadopunjavanje slike}
-Nadopunjavnje slike (engl. \emph{image inpainting}) je postupak u kojem nadopunjavamo segmente slike koji nedostaju. Nadopuna mora biti 
+Nadopunjavanje slike (engl. \emph{image inpainting}) je postupak u kojem nadopunjavamo segmente slike koji nedostaju. Nadopuna mora biti 
 semantički smislena i u skladnom odnosu s poznatim dijelom slike. Zbog ovih čvrstih zahtjeva, modeli za nadopunjavanje slike moraju imati 
 snažne generativne mogućnosti. Generativni difuzijski modeli, uz dobre generativne sposobnosti, omogućuju i manipulaciju latentnog prostora 
 za ugradnju semantičke informacije. Popularni modeli za ovaj zadatak su još i generativne suparničke mreže 
-(engl. \emph{generative adverserial networks}) i autoregresivni modeli. Problem takvih arhitketura je da moraju također naučiti i distribuciju
+(engl. \emph{generative adverserial networks}) i autoregresivni modeli. Problem takvih arhitektura je da moraju također naučiti i distribuciju
 dijelova slike koji nedostaju. U praksi takvi modeli imaju problema sa neobičnim prazninama u slici ili sa prazninama s kojima se nisu
 susreli prilikom treniranja
 
@@ -47,18 +47,18 @@ Difuzijski modeli su su klasa generativnih modela s latentnim varijablama \cite{
 i naučiti model da iz poznate latentne distribucije konstruira elemente iz distribucije podataka. Svaki difuzijski model se sastoji od dva
 osnovna elementa: unaprijedni proces i reverzni proces. Unaprijedni proces nema slobodne parametre, već se unaprijed definiranim 
 transformacijama podatak postepeno pretvori u element latentne distribucije. Za distribuciju latentnog prostora odabrali smo normalnu razdiobu.
-Dimenzija latentnog prostora jednaka je dimenziji prostora podatka. Unaprijedni proces može se promatrati kao markovljev lanac, i moguće je 
-izvesti uvjetne distribuciju sljedećeg stanja na temelju trenutnog. Za distribuciju zadnjeg stanja lanca pretpostavljamo upravo latentnu 
+Dimenzija latentnog prostora jednaka je dimenziji prostora podatka. Unaprijedni proces može se promatrati kao Markovljev lanac, i moguće je 
+izvesti uvjetne distribuciju sljedećeg stanja na temelju trenutačnog. Za distribuciju zadnjeg stanja lanca pretpostavljamo upravo latentnu 
 distribuciju. Unatražnu distribuciju nije traktabilna te nju upravo procjenjujemo pomoću dubokog modela. 
 
 \subsection{UNet}
 Za predviđanje unatražnog prolaza difuzije koristili smo duboki konvolucijski model arhitekture UNet. Konvolucijski se model trenira tako od šuma dobivenog unaprijednim prolazom difuzije u trenutku $t$ predviđa ulaznu sliku (trenutak $t = 0$).
-UNet arhitektura se u području račulnalnog vida najčešće primijenjuje za semantičku segmentaciju, no može se primjenjivati i za druge probleme (npr. difuziju) \cite{unet}.
-Sastoji se od koderskog i dekoderskog dijela, s preskočnim vezama izmežu istih.
+UNet arhitektura se u području računalnog vida najčešće primjenjuje za semantičku segmentaciju, no može se primjenjivati i za druge probleme (npr. difuziju) \cite{unet}.
+Sastoji se od koderskog i dekoderskog dijela, s preskočnim vezama između istih.
 \begin{figure}
 	\begin{center}
 	\includegraphics[width=\columnwidth]{images/unet.png}
-	\caption{Arhitektura UNet\cite{unet}}
+	\caption{Arhitektura UNet \cite{unet}}
 	\label{fig:figure1}
 	\end{center}
 \end{figure}
@@ -68,14 +68,14 @@ Konvolucijski blokovi su izvedeni na način da se radi dubinski separabilna konv
 Takvi se slojevi često kosite u modelima namijenjenima za rad na ograničenom sklopovlju (kao što su npr. tableti i pametni mobiteli).
 Neki od takvih modela su ShuffleNet (\cite{zhang2017shufflenetextremelyefficientconvolutional}) i MobileNet (\cite{howard2017mobilenetsefficientconvolutionalneural}).
 Budući da naš model mora moći predvidjeti sliku u svakom koraku difuzije, moramo nekako ugraditi informaciju o vremenskom koraku u model.
-Kako bi očuvali tu informaciju o vremenskom korakua difuzije $t$, koristimo vremenska ugrađivanja.
-Jednostavanim višeslojnim perceptronom genereiramo naučeni vremenski ovisan vektor koji se dodaje latentnoj reprezentaciji.
+Kako bi očuvali tu informaciju o vremenskom koraku difuzije $t$, koristimo vremenska ugrađivanja.
+Jednostavnim višeslojnim perceptronom generiramo naučeni vremenski ovisan vektor koji se dodaje latentnoj reprezentaciji.
 
 \section{RePaint model}
-RePaint je alogirtam za nadpounjavanje slike pomoću predtreniranog difuzijskog modela. Sam RePaint nema slobodne parametere te ga zato nije
+RePaint je algoritam za nadopunjavanje slike pomoću predtreniranog difuzijskog modela. Sam RePaint nema slobodne parametre te ga zato nije
 potrebno učiti. To nam omogućava korištenje bilo kojeg difuzijskog modela \cite{repaint}. Također takav pristup nema pristranost prema nekim oblicima maski.
 Algoritam funkcionira na sljedeći način. Vidljivi dio slike unaprijednim prolazom preslikamo u stanje $x_t \sim p_t$. Nadopunjenu sliku 
-generiramo iz latentnog prostora do stanja $x_t \sim q_t$. Sada na nadopunjenu sliku primjenimo inverznu masku i ove dvije slike zbrojimo. 
+generiramo iz latentnog prostora do stanja $x_t \sim q_t$. Sada na nadopunjenu sliku primijenimo inverznu masku i ove dvije slike zbrojimo. 
 Njihov zbroj jednak je novom "latentnom prostoru" iz kojeg generiramo novu nadopunjenu sliku. Ova iteracija se ponavlja dok se cijeli reverzni
 proces ne izvrši to jest do $t = 0$
 \begin{figure}
@@ -90,7 +90,7 @@ proces ne izvrši to jest do $t = 0$
 Model smo trenirali na skupu podataka MNIST. Za treniranje smo koristili Nvidia GeForce RTX 3080 grafičku karticu s $10$GB memorije.
 Model smo trenirali kroz $100$ epoha s veličinom grupe $64$. Optimirali smo kvadratnu razliku između originalne slike i slike dobivenu unatražnim prolazom difuzije.
 Kako bi testirali funkcionalnost našeg modela, maskirali smo nekoliko uzoraka iz skupa MNIST i nadopunili ih algoritmom RePain koristeći naučeni model(slika 2).
-Model je uvjerljivo popunio maskirane djelove slika u većini slučajeva.
+Model je uvjerljivo popunio maskirane dijelove slika u većini slučajeva.
 \begin{figure}
 	\begin{center}
 	\includegraphics[width=\columnwidth]{../repaint_output/inpainted_combined_6.png}
