@@ -42,7 +42,7 @@ def upsample_image(image_np, scale_factor=10):
 
 def downsample_mask(mask_np, target_size=(28, 28)):
     """
-    Downsample the mask to match the size of the input image (32x32).
+    Downsample the mask to match the size of the input image (28x28).
     Ensure the mask is a NumPy array before resizing.
     """
     if isinstance(mask_np, dict) and "composite" in mask_np:
@@ -60,6 +60,8 @@ def inpaint_image(input_image_np, mask_np, model, num_timesteps, U):
     Inpainting function that takes RGB NumPy arrays as input.
     Applies the mask to black out the selected regions.
     """
+    folder = "gradio"
+    os.makedirs(folder, exist_ok=True)
 
     mask_np = np.expand_dims(mask_np, axis=-1)
     mask_np = np.repeat(mask_np, 3, axis=-1)  # shapes (H, W, 3)
@@ -79,15 +81,11 @@ def inpaint_image(input_image_np, mask_np, model, num_timesteps, U):
     masked_image_tensor -= 0.5
     masked_image_tensor /= 0.5
 
-
-    ######
     mask_np = mask_tensor.squeeze().cpu().numpy()
     masked_image_np = masked_image_tensor.squeeze().cpu().numpy()
 
-    plt.imsave("mask.png", mask_np, cmap="gray")
-    plt.imsave("masked_image.png", masked_image_np, cmap="gray")
-    ###
-    print(torch.max(masked_image_tensor), torch.min(masked_image_tensor))
+    plt.imsave(os.path.join(folder, "mask.png"), mask_np, cmap="gray")
+    plt.imsave(os.path.join(folder, "masked_image.png"), masked_image_np, cmap="gray")
 
     print("started doing diffusion")
     inpainted_image_tensor = repaint_inpaint(
@@ -99,30 +97,20 @@ def inpaint_image(input_image_np, mask_np, model, num_timesteps, U):
         device=device
     )
     print("done with diffusion")
-    # convert the output back to a NumPy array
 
-    plt.imsave('saved_image.png', inpainted_image_tensor.squeeze(0).cpu().numpy().squeeze(0), cmap='gray')
-    inpput_image_2 = input_image_tensor.squeeze(0).cpu().numpy().squeeze(0)
-    inpainted_image_2 = inpainted_image_tensor.squeeze(0).cpu().numpy().squeeze(0)
+    plt.imsave(os.path.join(folder, "saved_image.png"), inpainted_image_tensor.squeeze(0).cpu().numpy().squeeze(0), cmap='gray')
+
     delta = input_image_tensor.squeeze(0).cpu().numpy().squeeze(0)-inpainted_image_tensor.squeeze(0).cpu().numpy().squeeze(0)
-    print(np.max(input_image_tensor.squeeze(0).cpu().numpy().squeeze(0)), np.min(input_image_tensor.squeeze(0).cpu().numpy().squeeze(0)))
-    print(np.max(inpainted_image_tensor.squeeze(0).cpu().numpy().squeeze(0)),
-          np.min(inpainted_image_tensor.squeeze(0).cpu().numpy().squeeze(0)))
 
     inpainted_image_tensor -= torch.min(inpainted_image_tensor)
     inpainted_image_tensor /= torch.max(inpainted_image_tensor) - torch.min(inpainted_image_tensor)
-    plt.imsave("delta.png", delta, cmap='gray')
+
+    plt.imsave(os.path.join(folder, "delta.png"), delta, cmap='gray')
 
     combined_image = torch.cat((input_image_tensor , mask_tensor, inpainted_image_tensor), dim=3)  # Spoji po širini
-    save_image(combined_image, "combined.png")
+    save_image(combined_image, os.path.join(folder, "combined.png"))
 
-    print(torch.max(input_image_tensor), torch.min(input_image_tensor))
     inpainted_image_np = (inpainted_image_tensor.squeeze(0).cpu().detach().numpy().transpose(1, 2, 0) * 255).astype(np.uint8)
-    print("Output shape:")
-    print(inpainted_image_np.shape)
-    print(inpainted_image_np)
-    print(np.max(inpainted_image_np))
-    print(np.min(inpainted_image_np))
 
     return inpainted_image_np
 
