@@ -65,7 +65,20 @@ proces ne izvrši to jest do $t = 0$
 
 \section{Zaključak}
 
-\textbf{TODO: ovo bude GPT na kraju napisal}
+U ovom radu istražili smo problem nadopunjavanja slike koristeći difuzijske modele. Difuzijski modeli pokazali su se kao obećavajuća klasa generativnih modela zbog svoje sposobnosti učenja latentnih reprezentacija kroz reverzni proces difuzije. Koristeći unaprijedni i reverzni proces, ovi modeli omogućuju postupno dodavanje i uklanjanje šuma na podacima, što omogućuje generiranje realističnih nadopuna slika.
+
+Proveli smo implementaciju modela temeljenog na difuziji za nadopunjavanje slika i testirali ga na skupu podataka MNIST. Eksperimentalni rezultati pokazuju da difuzijski modeli mogu generirati vizualno uvjerljive nadopune čak i za slike s kompleksnim uzorcima nedostajućih područja. Prednosti ovakvog pristupa uključuju:
+
+\begin{itemize}
+    \item \textbf{Fleksibilnost maskiranja:} RePaint algoritam, korišten u ovom radu, ne pokazuje pristranost prema određenim oblicima maski, što ga čini generalno primjenjivim na različite vrste ulaznih podataka.
+    \item \textbf{Korištenje postojećih modela:} Reverzni proces omogućuje iskorištavanje predtreniranih difuzijskih modela bez potrebe za dodatnim treniranjem, što značajno smanjuje računalne zahtjeve.
+    \item \textbf{Robusnost:} Difuzijski modeli pokazali su robusnost prema nepoznatim obrascima praznina, za razliku od nekih tradicionalnih pristupa poput generativnih suparničkih mreža (GAN-ova).
+\end{itemize}
+
+Međutim, izazovi ostaju u smislu optimizacije performansi i brzine generiranja. Naši eksperimenti sugeriraju potrebu za daljnjim istraživanjem arhitektura difuzijskih modela kako bi se poboljšala kvaliteta nadopuna i smanjilo vrijeme izvođenja reverznih procesa.
+
+Rezultati ovog rada doprinose razumijevanju primjene difuzijskih modela u nadopunjavanju slika i otvaraju mogućnosti za njihovu primjenu u širem spektru zadataka u domeni računalnog vida.
+
 
 %\section*{Acknowledgements}
 
@@ -73,4 +86,3 @@ proces ne izvrši to jest do $t = 0$
 \bibliography{tar2023} 
 
 \end{document}
-
