@@ -33,11 +33,11 @@ def main():
     # Train the model
     # Uncomment the following line to train the model
 
-    train.train(model, dataloader, optimizer, scheduler, device, epochs, log_freq, ema_decay)
+    #train.train(model, dataloader, optimizer, scheduler, device, epochs, log_freq, ema_decay)
 
     
     # Load pretrained model
-    checkpoint_path = "checkpoints/epoch_4.pt"
+    checkpoint_path = "checkpoints/epoch_99.pt"
     if os.path.exists(checkpoint_path):
         checkpoint = torch.load(checkpoint_path, map_location=device)
         model.load_state_dict(checkpoint["model"])
