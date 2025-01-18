@@ -1,3 +1,14 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citename{Lugmayr \bgroup et al.\egroup }2022]{repaint}
+Andreas Lugmayr, Martin Danelljan, Andres Romero, Fisher Yu, Radu Timofte, and
+  Luc~Van Gool.
+\newblock 2022.
+\newblock Repaint: Inpainting using denoising diffusion probabilistic models.
+
+\bibitem[\protect\citename{Ronneberger \bgroup et al.\egroup }2015]{unet}
+Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
+\newblock 2015.
+\newblock U-net: Convolutional networks for biomedical image segmentation.
+
 \end{thebibliography}
