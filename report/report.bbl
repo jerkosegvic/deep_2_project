@@ -5,9 +5,13 @@ Jonathan Ho, Ajay Jain, and Pieter Abbeel.
 \newblock 2020.
 \newblock Denoising diffusion probabilistic models.
 
+\bibitem[\protect\citename{Howard \bgroup et al.\egroup }2017]{howard2017mobilenetsefficientconvolutionalneural}
+Andrew~G. Howard, Menglong Zhu, Bo~Chen, Dmitry Kalenichenko, Weijun Wang, Tobias Weyand, Marco Andreetto, and Hartwig Adam.
+\newblock 2017.
+\newblock Mobilenets: Efficient convolutional neural networks for mobile vision applications.
+
 \bibitem[\protect\citename{Lugmayr \bgroup et al.\egroup }2022]{repaint}
-Andreas Lugmayr, Martin Danelljan, Andres Romero, Fisher Yu, Radu Timofte, and
-  Luc~Van Gool.
+Andreas Lugmayr, Martin Danelljan, Andres Romero, Fisher Yu, Radu Timofte, and Luc~Van Gool.
 \newblock 2022.
 \newblock Repaint: Inpainting using denoising diffusion probabilistic models.
 
@@ -15,5 +19,10 @@ Andreas Lugmayr, Martin Danelljan, Andres Romero, Fisher Yu, Radu Timofte, and
 Olaf Ronneberger, Philipp Fischer, and Thomas Brox.
 \newblock 2015.
 \newblock U-net: Convolutional networks for biomedical image segmentation.
+
+\bibitem[\protect\citename{Zhang \bgroup et al.\egroup }2017]{zhang2017shufflenetextremelyefficientconvolutional}
+Xiangyu Zhang, Xinyu Zhou, Mengxiao Lin, and Jian Sun.
+\newblock 2017.
+\newblock Shufflenet: An extremely efficient convolutional neural network for mobile devices.
 
 \end{thebibliography}
