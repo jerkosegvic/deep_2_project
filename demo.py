@@ -115,22 +115,23 @@ def inpaint_image(input_image_np, mask_np, model, num_timesteps, U):
     return inpainted_image_np
 
 
+folder = "example_images"
+os.makedirs(folder, exist_ok=True)
 mnist_images = [
-    np.array(Image.open("img_1.png").resize((28, 28)).convert("RGB")),
-    np.array(Image.open("img_2.png").resize((28, 28)).convert("RGB")),
-    np.array(Image.open("img_3.png").resize((28, 28)).convert("RGB")),
+    np.array(Image.open(os.path.join(folder, f"img_{i}.png")).convert("RGB"))
+    for i in range(10)
 ]
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = load_model()
-
 
 def demo():
     with gr.Blocks() as demo_interface:
         gr.Markdown("# MNIST Inpainting Demo with Arbitrary Masking")
 
         with gr.Row():
+            # Update the choices to include images from 0 to 9
             image_selector = gr.Radio(
-                choices=["Image 1", "Image 2", "Image 3"],
+                choices=[f"Image {i}" for i in range(10)],
                 label="Select Predefined MNIST Image",
             )
             process_button = gr.Button("Run Inpainting", variant="primary")
@@ -157,12 +158,9 @@ def demo():
             )
 
         def load_selected_image(selected_option):
-            if selected_option == "Image 1":
-                original_image = mnist_images[0]
-            elif selected_option == "Image 2":
-                original_image = mnist_images[1]
-            elif selected_option == "Image 3":
-                original_image = mnist_images[2]
+            selected_index = int(selected_option.split()[-1])
+            if 0 <= selected_index < len(mnist_images):
+                original_image = mnist_images[selected_index]
             else:
                 return None
 
@@ -173,12 +171,9 @@ def demo():
         )
 
         def process_and_upsample(selected_option, mask_np):
-            if selected_option == "Image 1":
-                original_image = mnist_images[0]
-            elif selected_option == "Image 2":
-                original_image = mnist_images[1]
-            elif selected_option == "Image 3":
-                original_image = mnist_images[2]
+            selected_index = int(selected_option.split()[-1])
+            if 0 <= selected_index < len(mnist_images):
+                original_image = mnist_images[selected_index]
             else:
                 return None
 
@@ -195,4 +190,4 @@ def demo():
     return demo_interface
 
 
-demo().launch(share=True)
+demo().launch()
