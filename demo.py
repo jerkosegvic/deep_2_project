@@ -78,6 +78,8 @@ def inpaint_image(input_image_np, mask_np, model, num_timesteps, U):
     masked_image_tensor = input_image_tensor.clone()
     masked_image_tensor[mask_tensor == 1] = 0
 
+    masked_image__out_np = masked_image_tensor.squeeze(1).permute(1, 2, 0).cpu().numpy()
+
     masked_image_tensor -= 0.5
     masked_image_tensor /= 0.5
 
@@ -112,7 +114,7 @@ def inpaint_image(input_image_np, mask_np, model, num_timesteps, U):
 
     inpainted_image_np = (inpainted_image_tensor.squeeze(0).cpu().detach().numpy().transpose(1, 2, 0) * 255).astype(np.uint8)
 
-    return inpainted_image_np
+    return masked_image__out_np, inpainted_image_np
 
 
 folder = "example_images"
@@ -148,6 +150,16 @@ def demo():
 
             sketchpad = gr.Sketchpad(label="Draw Mask Here", canvas_size=(280, 280))
 
+            masked_image_display = gr.Image(
+                label="Output Image",
+                type="numpy",
+                image_mode="RGB",
+                interactive=False,
+                width=280,
+                height=280,
+            )
+
+        with gr.Row():
             output_image_display = gr.Image(
                 label="Output Image",
                 type="numpy",
@@ -178,13 +190,13 @@ def demo():
                 return None
 
             downsampled_mask = downsample_mask(mask_np)
-            processed_image = inpaint_image(original_image, downsampled_mask, model, 1000, 5)
-            return upsample_image(processed_image)
+            masked_image, processed_image = inpaint_image(original_image, downsampled_mask, model, 1000, 5)
+            return upsample_image(masked_image), upsample_image(processed_image)
 
         process_button.click(
             process_and_upsample,
             inputs=[image_selector, sketchpad],
-            outputs=output_image_display,
+            outputs=(masked_image_display, output_image_display),
         )
 
     return demo_interface
